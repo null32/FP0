@@ -5,28 +5,28 @@
 ;;; [9, 1, 8, 2] -> [9, 8], [1, 2]
 
 (defun split (lst)
-	(cond					; if
-		((null lst)			; list.length === 0
-			'(nil nil)		; return ((), ())
-		)
-		(t					; else
-			((lambda (l f s)						; (l, f, s) =>
-				(cons								; join results [
-					(cons f (car l))				;   [f, ...l[1]]
-					(cons							;	wrap
-						(cond						;   if
-							((null s)				;   s === null
-								(cadr l)			;     l[2]
-							)
-							(t						;   else
-								(cons s (cadr l))	;   [s, ...l[2]]
-							)
-						)							;   #if
-					nil)							;   #wrap
-				)									; ]
-			) (split (cddr lst)) (car lst) (cadr lst))
-		)
-	)
+    (cond                   ; if
+        ((null lst)         ; list.length === 0
+            '(nil nil)      ; return ((), ())
+        )
+        (t                  ; else
+            ((lambda (l f s)                        ; (l, f, s) =>
+                (cons                               ; join results [
+                    (cons f (car l))                ;   [f, ...l[1]]
+                    (cons                           ;   wrap
+                        (cond                       ;   if
+                            ((null s)               ;   s === null
+                                (cadr l)            ;     l[2]
+                            )
+                            (t                      ;   else
+                                (cons s (cadr l))   ;   [s, ...l[2]]
+                            )
+                        )                           ;   #if
+                    nil)                            ;   #wrap
+                )                                   ; ]
+            ) (split (cddr lst)) (car lst) (cadr lst))
+        )
+    )
 )
 
 ;;; Test 1
@@ -49,17 +49,17 @@
 ;;; (луковица 3) -> (((3)))
 
 (defun луковица (n)
-	(_луковица n n)
+    (_луковица n n)
 )
 (defun _луковица (n v)
-	(cond
-		((= n 0)
-			v
-		)
-		(t
-			(cons (_луковица (- n 1) v) nil)
-		)
-	)
+    (cond
+        ((= n 0)
+            v
+        )
+        (t
+            (cons (_луковица (- n 1) v) nil)
+        )
+    )
 )
 
 ;;; Test 1
@@ -82,17 +82,17 @@
 ;;; [1, 9, 2, 8] -> [1, 2]
 
 (defun filter (lst)
-	(cond
-		((null lst)
-			nil
-		)
-		(t
-			(cons
-				(car lst)
-				(filter (cddr lst))
-			)
-		)
-	)
+    (cond
+        ((null lst)
+            nil
+        )
+        (t
+            (cons
+                (car lst)
+                (filter (cddr lst))
+            )
+        )
+    )
 )
 
 ;;; Test 1
@@ -116,17 +116,17 @@
 ;;; [1, 2, 3, 4, 5, 6] -> [[1, 2], [3, 4], [5, 6]]
 
 (defun pairs (lst)
-	(cond
-		((null lst)
-			nil
-		)
-		(t
-			(cons
-				(cons (car lst) (cons (cadr lst) nil))
-				(pairs (cddr lst))
-			)
-		)
-	)
+    (cond
+        ((null lst)
+            nil
+        )
+        (t
+            (cons
+                (cons (car lst) (cons (cadr lst) nil))
+                (pairs (cddr lst))
+            )
+        )
+    )
 )
 
 ;;; Test 1
@@ -149,17 +149,17 @@
 ;;; [[] [[]] []] -> 3
 
 (defun depth (lst)
-	(cond
-		((null lst)
-			0
-		)
-		(t
-			(+ (max
-				(depth (car lst))
-				(depth (cdr lst))
-			) 1)
-		)
-	)
+    (cond
+        ((null lst)
+            0
+        )
+        (t
+            (+ (max
+                (depth (car lst))
+                (depth (cdr lst))
+            ) 1)
+        )
+    )
 )
 
 ;;; Test 1
@@ -183,36 +183,36 @@
 ;;; [1 2 3] == [4 5 6] -> false
 
 (defun equal-set (lst-a lst-b)
-	(cond
-		((and (null lst-a) (null lst-b))
-			T
-		)
-		((or (null lst-a) (null lst-b))
-			nil
-		)
-		(t
-			(equal-set (cdr lst-a) (remove-value lst-b (car lst-a)))
-		)
-	)
+    (cond
+        ((and (null lst-a) (null lst-b))
+            T
+        )
+        ((or (null lst-a) (null lst-b))
+            nil
+        )
+        (t
+            (equal-set (cdr lst-a) (remove-value lst-b (car lst-a)))
+        )
+    )
 )
 (defun remove-value (lst v)
-	(cond
-		((null lst)
-			nil
-		)
-		(t
-			((lambda (e)
-				(cond
-					((= (car lst) v)
-						e
-					)
-					(t
-						(cons (car lst) e)
-					)
-				)
-			) (remove-value (cdr lst) v))
-		)
-	)
+    (cond
+        ((null lst)
+            nil
+        )
+        (t
+            ((lambda (e)
+                (cond
+                    ((= (car lst) v)
+                        e
+                    )
+                    (t
+                        (cons (car lst) e)
+                    )
+                )
+            ) (remove-value (cdr lst) v))
+        )
+    )
 )
 
 ;;; Test 1
@@ -248,30 +248,30 @@
 ;;; [1 2 3] & [4 5 6] -> false
 
 (defun intersect (lst-a lst-b)
-	(cond
-		((null lst-a)
-			nil
-		)
-		((list-contains lst-b (car lst-a))
-			t
-		)
-		(t
-			(intersect (cdr lst-a) lst-b)
-		)
-	)
+    (cond
+        ((null lst-a)
+            nil
+        )
+        ((list-contains lst-b (car lst-a))
+            t
+        )
+        (t
+            (intersect (cdr lst-a) lst-b)
+        )
+    )
 )
 (defun list-contains (lst v)
-	(cond
-		((null lst)
-			nil
-		)
-		((= (car lst) v)
-			t
-		)
-		(t
-			(list-contains (cdr lst) v)
-		)
-	)
+    (cond
+        ((null lst)
+            nil
+        )
+        ((= (car lst) v)
+            t
+        )
+        (t
+            (list-contains (cdr lst) v)
+        )
+    )
 )
 
 ;;; Test 1
@@ -297,14 +297,14 @@
 ;;;   Использует remove-value описаный выше ⬆
 
 (defun subtract (lst-a lst-b)
-	(cond
-		((null lst-b)
-			lst-a
-		)
-		(t
-			(subtract (remove-value lst-a (car lst-b)) (cdr lst-b))
-		)
-	)
+    (cond
+        ((null lst-b)
+            lst-a
+        )
+        (t
+            (subtract (remove-value lst-a (car lst-b)) (cdr lst-b))
+        )
+    )
 )
 
 ;;; Test 1
@@ -332,14 +332,14 @@
 ;;; }
 ;;; distance(city, city) -> float
 (defun distance (city-a city-b)
-	(sqrt (+
-		(expt
-			(- (get city-a 'x) (get city-b 'x))
-		2)
-		(expt
-			(- (get city-a 'y) (get city-b 'y))
-		2)
-	))
+    (sqrt (+
+        (expt
+            (- (get city-a 'x) (get city-b 'x))
+        2)
+        (expt
+            (- (get city-a 'y) (get city-b 'y))
+        2)
+    ))
 )
 
 ;;; Test 1

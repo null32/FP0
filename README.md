@@ -1,2 +1,2 @@
 # FP0
-Functional programming stuff
+Задачи по функциональному программированию

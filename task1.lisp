@@ -154,10 +154,10 @@
             0
         )
         (t
-            (+ (max
-                (depth (car lst))
+            (max
+                (+ (depth (car lst)) 1)
                 (depth (cdr lst))
-            ) 1)
+            )
         )
     )
 )
@@ -228,13 +228,13 @@
 (write-line "")
 
 ;;; Test 3
-(write-line "Test 2")
+(write-line "Test 3")
 (princ ">> (1 2) == (1 2 3)")
 (print (equal-set '(1 2) '(1 2 3)))
 (write-line "")
 
-;;; Test 3
-(write-line "Test 2")
+;;; Test 4
+(write-line "Test 4")
 (princ ">> () == ()")
 (print (equal-set '() '()))
 (write-line "")
@@ -341,23 +341,78 @@
         2)
     ))
 )
+(defun make-city (name x y)
+	(setf (get name 'x) x)
+	(setf (get name 'y) y)
+)
 
 ;;; Test 1
 (write-line "Test 1")
 (princ ">> {0, 3} {4, 0}")
-(setf (get 'city1 'x) 0)
-(setf (get 'city1 'y) 3)
-(setf (get 'city2 'x) 4)
-(setf (get 'city2 'y) 0)
+(make-city 'city1 0 3)
+(make-city 'city2 4 0)
 (print (distance 'city1 'city2))
 (write-line "")
 
 ;; Test 2
-(write-line "Test 1")
+(write-line "Test 2")
 (princ ">> {34, 56} {71, 66}")
-(setf (get 'city1 'x) 34)
-(setf (get 'city1 'y) 56)
-(setf (get 'city2 'x) 71)
-(setf (get 'city2 'y) 66)
+(make-city 'city1 34 56)
+(make-city 'city2 71 66)
 (print (distance 'city1 'city2))
+(write-line "")
 
+
+
+(write-line "")
+
+;;; #46
+;;; Определить являются ли два человека сестрами или брятьями
+;;; Родители заданы как свойства символа-человека
+;;;
+;;; parents
+;;; A    B    C    D
+;;;
+;;;   \/   \/   \/
+;;;
+;;;  VOVA DANYA ILYA
+;;; children
+
+(defun make-child (name p1 p2)
+	(setf (get name 'p1) p1)
+	(setf (get name 'p2) p2)
+)
+(defun parents (x)
+	(cons
+		(get x 'p1)
+		(cons
+			(get x 'p2)
+			nil
+		)
+	)
+)
+(defun relatives (x1 x2)
+	((lambda (e1 e2)
+		(or
+			(string= (car e1) (car e2))
+			(string= (cadr e1) (car e2))
+			(string= (car e1) (cadr e2))
+			(string= (cadr e1) (cadr e2))
+		)
+	) (parents x1) (parents x2))
+)
+
+(make-child 'VOVA 'A 'B)
+(make-child 'DANYA 'B 'C)
+(make-child 'ILYA 'C 'D)
+;; Test 1
+(write-line "Test 1")
+(princ ">> VOVA and DANYA")
+(print (relatives 'VOVA 'DANYA))
+(write-line "")
+
+;; Test 2
+(write-line "Test 2")
+(princ ">> VOVA and ILYA")
+(print (relatives 'VOVA 'ILYA))
+(write-line "")

@@ -342,8 +342,8 @@
     ))
 )
 (defun make-city (name x y)
-	(setf (get name 'x) x)
-	(setf (get name 'y) y)
+        (setf (get name 'x) x)
+        (setf (get name 'y) y)
 )
 
 ;;; Test 1
@@ -379,27 +379,27 @@
 ;;; children
 
 (defun make-child (name p1 p2)
-	(setf (get name 'p1) p1)
-	(setf (get name 'p2) p2)
+        (setf (get name 'p1) p1)
+        (setf (get name 'p2) p2)
 )
 (defun parents (x)
-	(cons
-		(get x 'p1)
-		(cons
-			(get x 'p2)
-			nil
-		)
-	)
+        (cons
+                (get x 'p1)
+                (cons
+                        (get x 'p2)
+                        nil
+                )
+        )
 )
 (defun relatives (x1 x2)
-	((lambda (e1 e2)
-		(or
-			(string= (car e1) (car e2))
-			(string= (cadr e1) (car e2))
-			(string= (car e1) (cadr e2))
-			(string= (cadr e1) (cadr e2))
-		)
-	) (parents x1) (parents x2))
+        ((lambda (e1 e2)
+                (or
+                        (string= (car e1) (car e2))
+                        (string= (cadr e1) (car e2))
+                        (string= (car e1) (cadr e2))
+                        (string= (cadr e1) (cadr e2))
+                )
+        ) (parents x1) (parents x2))
 )
 
 (make-child 'VOVA 'A 'B)

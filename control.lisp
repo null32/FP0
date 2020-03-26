@@ -1,145 +1,145 @@
 ;;; Задание 1
 ;;; Определитель матрицы
 (defun det (matrix)
-        (cond
-                ((null matrix) 1)
-                (t
-                        (*
-                                (caar matrix)
-                                (det
-                                        (cdr (remove-first-column (normalyze matrix)))
-                                )
-                        )
+    (cond
+        ((null matrix) 1)
+        (t
+            (*
+                (caar matrix)
+                (det
+                    (cdr (remove-first-column (normalyze matrix)))
                 )
+            )
         )
+    )
 )
 
 ;;; Сложение
 (defun add-matrix (a b)
-        (cond
-                ((and (null a) (null b)) nil)
-                (t
-                        (cons
-                                (add-row (car a) (car b))
-                                (add-matrix (cdr a) (cdr b))
-                        )
-                )
+    (cond
+        ((and (null a) (null b)) nil)
+        (t
+            (cons
+                (add-row (car a) (car b))
+                (add-matrix (cdr a) (cdr b))
+            )
         )
+    )
 )
 
 ;;; Умножение
 (defun multiply-matrix (a b)
-        (cond
-                ((null a) nil)
-                (t
-                        (cons
-                                (calculate-row (car a) b)
-                                (multiply-matrix (cdr a) b)
-                        )
-                )
+    (cond
+        ((null a) nil)
+        (t
+            (cons
+                (calculate-row (car a) b)
+                (multiply-matrix (cdr a) b)
+            )
         )
+    )
 )
 
 
 ;;; ---------------------------------------------------------------
 ;;; Вспомогательные функции
 (defun remove-first-column (m)
-        (cond
-                ((null m) nil)
-                (t
-                        (cons
-                                (cdar m)
-                                (remove-first-column (cdr m))
-                        )
-                )
+    (cond
+        ((null m) nil)
+        (t
+            (cons
+                (cdar m)
+                (remove-first-column (cdr m))
+            )
         )
+    )
 )
 
 (defun get-first-column (m)
-        (cond
-                ((null m) nil)
-                (t
-                        (cons
-                                (caar m)
-                                (get-first-column (cdr m))
-                        )
-                )
+    (cond
+        ((null m) nil)
+        (t
+            (cons
+                (caar m)
+                (get-first-column (cdr m))
+            )
         )
+    )
 )
 
 
 (defun normalyze (m)
-        (cons
-                (car m)
-                (apply-to-each
-                        (lambda (row)
-                                (subtract-row row
-                                        (multiply-row-by (car m)
-                                                (/ (car row) (caar m))
-                                        )
-                                )
-                        )
-                        (cdr m)
+    (cons
+        (car m)
+        (apply-to-each
+            (lambda (row)
+                (subtract-row row
+                    (multiply-row-by (car m)
+                        (/ (car row) (caar m))
+                    )
                 )
+            )
+            (cdr m)
         )
+    )
 )
 
 (defun apply-to-each (fun l)
-        (cond
-                ((null l) nil)
-                (t
-                        (cons
-                                (funcall fun (car l))
-                                (apply-to-each fun (cdr l))
-                        )
-                )
+    (cond
+        ((null l) nil)
+        (t
+            (cons
+                (funcall fun (car l))
+                (apply-to-each fun (cdr l))
+            )
         )
+    )
 )
 
 (defun subtract-row (a b)
-        (add-row a (apply-to-each (lambda (x) (* x -1)) b))
+    (add-row a (apply-to-each (lambda (x) (* x -1)) b))
 )
 
 (defun multiply-row-by (row by)
-        (apply-to-each (lambda (x) (* x by)) row)
+    (apply-to-each (lambda (x) (* x by)) row)
 )
 
 (defun add-row (a b)
-        (cond
-                ((and (null a) (null b)) nil)
-                ((or (null a) (null b)) (throw 'invalid-argument 'length-of-a-does-not-match-length-of-b))
-                (t
-                        (cons
-                                (+ (car a) (car b))
-                                (add-row (cdr a) (cdr b))
-                        )
-                )
+    (cond
+        ((and (null a) (null b)) nil)
+        ((or (null a) (null b)) (throw 'invalid-argument 'length-of-a-does-not-match-length-of-b))
+        (t
+            (cons
+                (+ (car a) (car b))
+                (add-row (cdr a) (cdr b))
+            )
         )
+    )
 )
 
 (defun calculate-row (row m)
-        (cond
-                ((null (car m)) nil)
-                (t
-                        (cons
-                                (scalar-multiply row (get-first-column m))
-                                (calculate-row row (remove-first-column m))
-                        )
-                )
+    (cond
+        ((null (car m)) nil)
+        (t
+            (cons
+                (scalar-multiply row (get-first-column m))
+                (calculate-row row (remove-first-column m))
+            )
         )
+    )
 )
 
 (defun scalar-multiply (a b)
-        (cond
-                ((and (null a) (null b)) 0)
-                ((or (null a) (null b)) (throw 'invalid-argument nil))
-                (t
-                        (+
-                                (* (car a) (car b))
-                                (scalar-multiply (cdr a) (cdr b))
-                        )
-                )
+    (cond
+        ((and (null a) (null b)) 0)
+        ((or (null a) (null b)) (throw 'invalid-argument nil))
+        (t
+            (+
+                (* (car a) (car b))
+                (scalar-multiply (cdr a) (cdr b))
+            )
         )
+    )
 )
 
 
@@ -157,60 +157,60 @@
 ;;; ---------------------------------------------------------------
 ;;; Tests
 (print (det '(
-        (1 2 3)
-        (6 5 4)
-        (8 9 7)
+    (1 2 3)
+    (6 5 4)
+    (8 9 7)
 )))
 
 (print (add-matrix '(
-        (1 2)
-        (3 4)
+    (1 2)
+    (3 4)
 ) '(
-        (5 6)
-        (7 8)
+    (5 6)
+    (7 8)
 )))
 
 (print (multiply-matrix '(
-        (1 2)
-        (3 4)
+    (1 2)
+    (3 4)
 ) '(
-        (5 6)
-        (7 8)
+    (5 6)
+    (7 8)
 )))
 
 ;;; ---------------------------------------------------------------
 ;;; Задание 2
 (defun split-list (l)
-        (cond
-                ((null l) (cons nil nil))
-                (t
-                        (
-                                (lambda (res)
-                                        (cond
-                                                ((or (null (car res)) (< (car l) (caar res)))
-                                                        (cons
-                                                                (cons
-                                                                        (car l)
-                                                                        (car res)
-                                                                )
-                                                                (cdr res)
-                                                        )
-                                                )
-                                                (t
-                                                        (cons
-                                                                (cons
-                                                                        (car l)
-                                                                        nil
-                                                                )
-                                                                res
-                                                        )
-                                                )
-                                        )
+    (cond
+        ((null l) (cons nil nil))
+        (t
+            (
+                (lambda (res)
+                    (cond
+                        ((or (null (car res)) (< (car l) (caar res)))
+                            (cons
+                                (cons
+                                    (car l)
+                                    (car res)
                                 )
-                                (split-list (cdr l))
+                                (cdr res)
+                            )
                         )
+                        (t
+                            (cons
+                                (cons
+                                    (car l)
+                                    nil
+                                )
+                                res
+                            )
+                        )
+                    )
                 )
+                (split-list (cdr l))
+            )
         )
+    )
 )
 
 (write-line "")

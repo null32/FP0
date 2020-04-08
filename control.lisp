@@ -71,7 +71,7 @@
 (defun normalyze (m)
     (cons
         (car m)
-        (apply-to-each
+        (mapcar
             (lambda (row)
                 (subtract-row row
                     (multiply-row-by (car m)
@@ -84,37 +84,17 @@
     )
 )
 
-(defun apply-to-each (fun l)
-    (cond
-        ((null l) nil)
-        (t
-            (cons
-                (funcall fun (car l))
-                (apply-to-each fun (cdr l))
-            )
-        )
-    )
-)
 
 (defun subtract-row (a b)
-    (add-row a (apply-to-each (lambda (x) (* x -1)) b))
+    (add-row a (mapcar (lambda (x) (* x -1)) b))
 )
 
 (defun multiply-row-by (row by)
-    (apply-to-each (lambda (x) (* x by)) row)
+    (mapcar (lambda (x) (* x by)) row)
 )
 
 (defun add-row (a b)
-    (cond
-        ((and (null a) (null b)) nil)
-        ((or (null a) (null b)) (throw 'invalid-argument 'length-of-a-does-not-match-length-of-b))
-        (t
-            (cons
-                (+ (car a) (car b))
-                (add-row (cdr a) (cdr b))
-            )
-        )
-    )
+    (mapcar '+ a b)
 )
 
 (defun calculate-row (row m)
@@ -130,16 +110,7 @@
 )
 
 (defun scalar-multiply (a b)
-    (cond
-        ((and (null a) (null b)) 0)
-        ((or (null a) (null b)) (throw 'invalid-argument nil))
-        (t
-            (+
-                (* (car a) (car b))
-                (scalar-multiply (cdr a) (cdr b))
-            )
-        )
-    )
+    (apply '+ (mapcar '* a b))
 )
 
 

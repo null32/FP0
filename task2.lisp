@@ -27,16 +27,7 @@
 ;;; каждому соответствующему элементу списка x
 ;;; (apl-apply '(min max) '((1 2 3) (1 2 3))) => (1 3)
 (defun apl-apply (funcs args)
-        (cond
-                ((and (null funcs) (null args)) nil)
-                ((or (null funcs) (null args)) (throw 'invalid-argument "length of funcs and args does not match"))
-                (t
-                        (cons
-                                (apply (car funcs) (car args))
-                                (apl-apply (cdr funcs) (cdr args))
-                        )
-                )
-        )
+    (mapcar (lambda (f a) (apply f a)) funcs args)
 )
 
 ;;; Test #1
@@ -48,11 +39,13 @@
 ;;; Test #2
 (write-line "Test 2")
 (princ " >> (apl-apply '(min max) '((1 2 3) (1 2 3) nil))")
-(print
-        (catch 'invalid-argument
-                (apl-apply '(min max) '((1 2 3) (1 2 3) nil))
-        )
-)
+(print (apl-apply '(min max) '((1 2 3) (1 2 3) nil)))
+(write-line "")
+
+;;; Test #3
+(write-line "Test 3")
+(princ " >> (apl-apply '(+ - *) '((1 2 3) (3 2 1) (2 4 6)))")
+(print (apl-apply '(+ - *) '((1 2 3) (3 2 1) (2 4 6))))
 (write-line "")
 
 

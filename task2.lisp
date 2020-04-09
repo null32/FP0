@@ -65,18 +65,8 @@
 ;;; (any (lambda (x) (> x 3)) '(1 2 3)) => nil
 ;;; (any (lambda (x) (> x 3)) '(1 5 3)) => T
 
-(defun any (pred list)
-        (cond
-                ((null list)
-                        nil
-                )
-                ((funcall pred (car list))
-                        t
-                )
-                (t
-                        (any pred (cdr list))
-                )
-        )
+(defun any (pred lst)
+    (reduce (lambda (p x) (or p (funcall pred x))) lst :initial-value nil)
 )
 
 ;;; Test #1
@@ -100,15 +90,7 @@
 ;;; которые не подходят под pred
 
 (defun where (pred list)
-        (cond
-                ((null list) nil)
-                ((funcall pred (car list))
-                        (cons (car list) (where pred (cdr list)))
-                )
-                (t
-                        (where pred (cdr list))
-                )
-        )
+    (mapcan (lambda (x) (cond ((funcall pred x) (list x)) (t nil))) list)
 )
 
 ;;; Test #1
@@ -139,16 +121,8 @@
 ;;; список, сформированный из результатов
 ;;; (multifun '(+ -) '(3 2 1)) => (6 0)
 
-(defun multifun (f x)
-        (cond
-                ((null f) nil)
-                (t
-                        (cons
-                                (apply (car f) x)
-                                (multifun (cdr f) x)
-                        )
-                )
-        )
+(defun multifun (funcs lst)
+    (mapcar (lambda (f) (apply f lst)) funcs)
 )
 
 ;;; Test #1

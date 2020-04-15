@@ -103,7 +103,30 @@
 (write-line "")
 ;;; #9
 ;;; Напишите генератор чисел Фибоначчи
-;;; Что есть генератор?
+(defun fib-gen ()
+    (let
+        ((a 1) (b 0) (temp 0))
+        (lambda ()
+            (progn
+                (setq temp b)
+                (setq b (+ a b))
+                (setq a temp)
+                b
+            )
+        )
+    )
+)
+
+;;; Test #1
+(write-line "Test 1")
+(princ " first 5 elements of fib sequence")
+(setq f1 (fib-gen))
+(print (funcall f1))
+(print (funcall f1))
+(print (funcall f1))
+(print (funcall f1))
+(print (funcall f1))
+(write-line "")
 
 
 
@@ -135,7 +158,18 @@
 (write-line "")
 ;;; #13
 ;;; Определите функцию, которая возвращает своё определение
-;;; ???
+(defun getme ()
+    (symbol-function 'getme)
+)
 
+;;; Test #1
+(write-line "Test 1")
+(princ " call function normal way")
+(print (getme))
+(write-line "")
 
-
+;;; Test #2
+(write-line "Test 2")
+(princ " recursively call function 3 times")
+(print (funcall (funcall (getme))))
+(write-line "")

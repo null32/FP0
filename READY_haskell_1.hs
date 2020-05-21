@@ -59,9 +59,17 @@ _grayCode n =
     then [[0], [1]]
     else do
         let prev = _grayCode (n - 1)
-        let temp = prev ++ reverse prev
-        let leftSide = map (\x -> [x]) ((take (2 ^ (n - 1)) (cycle [0])) ++ (take (2 ^ (n - 1)) (cycle [1])))
-        zipWith (++) leftSide temp
+        let first = map (\x -> [0] ++ x) prev
+        let second = map (\x -> [1] ++ x) (reverse prev)
+        first ++ second
+
+-- 3.1
+-- Реализовать генератор деревьев, чтобы выдаваемые им деревья имели
+-- количество вершин, точно соответствующее числу, указанному в его
+-- первом аргументе.
+
+
+
 
 _test _in _out = do
     putStr "  -> "

@@ -50,6 +50,19 @@ _merge (f:ft) (s:st)
   | f < s     = f:(_merge ft (s:st))
   | otherwise = s:(_merge (f:ft) st)
 
+
+-- 2.1
+-- Для заданного N построить код Грея.
+
+_grayCode n =
+    if n == 1
+    then [[0], [1]]
+    else do
+        let prev = _grayCode (n - 1)
+        let temp = prev ++ reverse prev
+        let leftSide = map (\x -> [x]) ((take (2 ^ (n - 1)) (cycle [0])) ++ (take (2 ^ (n - 1)) (cycle [1])))
+        zipWith (++) leftSide temp
+
 _test _in _out = do
     putStr "  -> "
     print _in
@@ -82,3 +95,7 @@ main = do
     putStrLn "Test #26"
     let someList = [5,1,4,3,2]
     _test someList (_mergeSort someList)
+
+    putStrLn "Test #2.1"
+    let n = 3
+    _test n (_grayCode n)

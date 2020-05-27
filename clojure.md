@@ -86,6 +86,12 @@ Clojure используется такими компаниями как Apple,
     Las3r, Clojure для ActionScript Virtual Machine (Adobe Flash Player)
     Rouge, Clojure на YARV для Ruby
 
+### Ресурсы по Clojure
+* [Official WebSite](https://clojure.org/)
+* [Community](https://clojure.org/community/success_stories)
+* [Community powered documentation](https://clojuredocs.org/)
+* [Ру курс по Clojure](https://clojurecourse.by/)
+
 ## Как писать на Clojure?
 
 `;` -- комментарий
